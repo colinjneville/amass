@@ -10,5 +10,5 @@ keywords = ["from", "telety", "derive", "convert"]
 categories = ["rust-patterns"]
 
 [dependencies]
-amass-macro = { path = "../amass-macro" }
+amass-macro = { version = "0.1", path = "../amass-macro" }
 telety = "0.2"
