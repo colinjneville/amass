@@ -1,0 +1,14 @@
+[package]
+name = "amass"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/colinjneville/telety"
+readme = "../README.md"
+description = "Automatically generate `From` impls for nested enums, even across crates"
+keywords = ["from", "telety", "derive", "convert"]
+categories = ["rust-patterns"]
+
+[dependencies]
+amass-macro = { path = "../amass-macro" }
+telety = "0.2"
