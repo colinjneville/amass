@@ -1,6 +1,6 @@
 use syn::{
-    punctuated::Punctuated, Expr, ExprPath, GenericArgument, GenericParam, Generics, Path,
-    PathArguments, PathSegment, Token, Type, TypePath,
+    Expr, ExprPath, GenericArgument, GenericParam, Generics, Path, PathArguments, PathSegment,
+    Token, Type, TypePath, punctuated::Punctuated,
 };
 
 // Copied from telety for now

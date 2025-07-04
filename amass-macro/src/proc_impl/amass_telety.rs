@@ -1,8 +1,9 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 use syn::{
+    Path,
     parse::{Parse, ParseStream},
-    parse2, Path,
+    parse2,
 };
 
 struct Args {

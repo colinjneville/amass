@@ -1,11 +1,11 @@
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{
+    Attribute, Ident, MetaNameValue, Token,
     parse::{Parse, ParseStream},
     parse2,
     punctuated::Punctuated,
     spanned::Spanned as _,
-    Attribute, Ident, MetaNameValue, Token,
 };
 
 use crate::variant_action::VariantAction;
@@ -31,7 +31,7 @@ impl Options {
                     syn::Meta::Path(_) => Some(Options::default()),
                     syn::Meta::List(meta_list) => Some(parse2(meta_list.tokens.clone())?),
                     syn::Meta::NameValue(_) => {
-                        return Err(syn::Error::new(attr.meta.span(), "expected list arguments"))
+                        return Err(syn::Error::new(attr.meta.span(), "expected list arguments"));
                     }
                 } {
                     if args.replace(options).is_some() {

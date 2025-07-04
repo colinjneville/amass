@@ -1,10 +1,9 @@
 use proc_macro2::TokenStream;
 use quote::{quote, quote_spanned};
 use syn::{
-    parse2, parse_quote, parse_quote_spanned,
+    Attribute, Ident, ItemEnum, Path, Type, TypePath, parse_quote, parse_quote_spanned, parse2,
     spanned::Spanned as _,
     visit_mut::{self, VisitMut as _},
-    Attribute, Ident, ItemEnum, Path, Type, TypePath,
 };
 
 use crate::{options::Options, parse::AmassCommon, syn_util};
@@ -30,16 +29,18 @@ pub(crate) fn amass(attr_args: TokenStream, item: TokenStream) -> syn::Result<To
 
     let needle = Ident::new("__amass_apply_needle", attr_span);
 
-    let macro_ts = telety::v1::TY.apply(
-        item_path,
-        needle.clone(),
-        quote_spanned! { attr_span =>
-            ::amass::__private::amass_apply!(
-                #common
-                <#args>
-                #needle
-            );
-        })
+    let macro_ts = telety::v1::TY
+        .apply(
+            item_path,
+            needle.clone(),
+            quote_spanned! { attr_span =>
+                ::amass::__private::amass_apply!(
+                    #common
+                    <#args>
+                    #needle
+                );
+            },
+        )
         .with_fallback(quote!(::amass::__private::require_telety_error!();))
         .with_telety_path(parse_quote!(::amass::__private::telety));
 

@@ -1,7 +1,7 @@
 use proc_macro2::{Ident, TokenStream};
-use quote::{quote, quote_spanned, ToTokens};
+use quote::{ToTokens, quote, quote_spanned};
 use syn::{
-    parse2, parse_quote, punctuated::Punctuated, spanned::Spanned as _, Field, Fields, Item, Token
+    Field, Fields, Item, Token, parse_quote, parse2, punctuated::Punctuated, spanned::Spanned as _,
 };
 
 use crate::{
@@ -36,7 +36,8 @@ pub(crate) fn amass_apply(attr: TokenStream) -> syn::Result<TokenStream> {
 
     let mut generated_items = vec![];
 
-    let primary_path = telety.alias_map()
+    let primary_path = telety
+        .alias_map()
         .get_self()
         .expect("Self must be aliased")
         .to_macro_path();
@@ -76,19 +77,23 @@ pub(crate) fn amass_apply(attr: TokenStream) -> syn::Result<TokenStream> {
             if variant_action != VariantAction::Ignore {
                 if let Some(type_path) = type_path {
                     // TODO this probably panics if user incorrectly uses a type parameter as a variant
-                    let alias = telety.alias_map().get_alias(type_path)?
+                    let alias = telety
+                        .alias_map()
+                        .get_alias(type_path)?
                         .expect("type must have an alias");
                     let ty_macro_path = alias.to_macro_path();
                     let mut args = alias.generic_arguments().cloned();
                     if let Some(args) = &mut args {
                         directed_visit::visit_mut(
-                            &mut directed_visit::syn::direct::FullDefault, 
-                            &mut apply_args_visitor, 
-                            args);
+                            &mut directed_visit::syn::direct::FullDefault,
+                            &mut apply_args_visitor,
+                            args,
+                        );
                         directed_visit::visit_mut(
-                            &mut directed_visit::syn::direct::FullDefault, 
-                            &mut telety.alias_map().visitor(), 
-                            args);
+                            &mut directed_visit::syn::direct::FullDefault,
+                            &mut telety.alias_map().visitor(),
+                            args,
+                        );
                     }
 
                     // TODO should be in a drop guard
@@ -105,7 +110,9 @@ pub(crate) fn amass_apply(attr: TokenStream) -> syn::Result<TokenStream> {
 
                     common = amass_from.common;
 
-                    if variant_action == VariantAction::Deep || variant_action == VariantAction::Force {
+                    if variant_action == VariantAction::Deep
+                        || variant_action == VariantAction::Force
+                    {
                         let fallback = if variant_action == VariantAction::Force {
                             quote_spanned!( span =>
                                 ::amass::__private::require_telety_error!();
@@ -128,7 +135,8 @@ pub(crate) fn amass_apply(attr: TokenStream) -> syn::Result<TokenStream> {
                             .with_fallback(fallback);
 
                         if let Some(telety_path) = telety.options().telety_path.as_ref() {
-                            amass_apply_macro = amass_apply_macro.with_telety_path(telety_path.clone());
+                            amass_apply_macro =
+                                amass_apply_macro.with_telety_path(telety_path.clone());
                         }
 
                         generated_items.push(amass_apply_macro.into_token_stream());
@@ -136,7 +144,10 @@ pub(crate) fn amass_apply(attr: TokenStream) -> syn::Result<TokenStream> {
 
                     common.pop_variant();
                 } else if variant_action == VariantAction::Force {
-                    return Err(syn::Error::new(variant.fields.span(), "Non-path types cannot have deep impls"));
+                    return Err(syn::Error::new(
+                        variant.fields.span(),
+                        "Non-path types cannot have deep impls",
+                    ));
                 }
             }
         }

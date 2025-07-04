@@ -1,8 +1,8 @@
 use syn::{
+    Attribute, Ident,
     parse::{Parse, ParseStream},
     parse2,
     spanned::Spanned as _,
-    Attribute, Ident,
 };
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
@@ -19,6 +19,10 @@ impl VariantAction {
         let mut action = None;
         for attr in attrs {
             if attr.path().is_ident("amass_action") {
+                #[allow(
+                    clippy::collapsible_if,
+                    reason = "separate mutable and immutable clauses"
+                )]
                 if action
                     .replace(parse2(attr.meta.require_list()?.tokens.clone())?)
                     .is_some()
@@ -42,7 +46,7 @@ impl VariantAction {
             "force" => Ok(Self::Force),
             _ => Err(syn::Error::new(
                 ident.span(),
-                format!("Invalid variant action '{}'", ident),
+                format!("Invalid variant action '{ident}'"),
             )),
         }
     }

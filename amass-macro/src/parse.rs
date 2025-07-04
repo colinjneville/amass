@@ -1,13 +1,12 @@
 use proc_macro2::TokenStream;
-use quote::{quote_spanned, ToTokens};
+use quote::{ToTokens, quote_spanned};
 use syn::{
-    bracketed,
+    AngleBracketedGenericArguments, Field, Generics, Ident, Item, Path, PathArguments, PathSegment,
+    Token, Type, Variant, bracketed,
     parse::{Parse, ParseStream},
     punctuated::Punctuated,
     spanned::Spanned as _,
     token::Bracket,
-    AngleBracketedGenericArguments, Field, Generics, Ident, Item, Path, PathArguments, PathSegment,
-    Token, Type, Variant,
 };
 
 pub(crate) struct AmassFrom {
