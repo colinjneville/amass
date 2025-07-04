@@ -4,3 +4,13 @@ members = [
     "amass",
     "amass-macro", 
 ]
+
+[workspace.dependencies]
+amass-macro = { version = "0.1.1", path = "amass-macro" }
+
+proc-macro2 = "1.0.69"
+quote = "1.0.33"
+syn = "2.0.39"
+telety = "0.3"
+
+directed-visit = { version = "0.3.2", features = ["syn"] }

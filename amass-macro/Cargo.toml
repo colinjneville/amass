@@ -1,7 +1,7 @@
 [package]
 name = "amass-macro"
-version = "0.1.0"
-edition = "2021"
+version = "0.1.1"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/colinjneville/amass"
 description = "Proc macros for amass. Not intended for public use."
@@ -10,7 +10,9 @@ description = "Proc macros for amass. Not intended for public use."
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1.0.69"
-quote = "1.0.33"
-syn = { version = "2.0.39", features = ["visit", "visit-mut"] }
-telety = "0.2"
+proc-macro2.workspace = true
+quote.workspace = true
+syn.workspace = true
+telety.workspace = true
+
+directed-visit.workspace = true

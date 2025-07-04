@@ -1,7 +1,7 @@
 [package]
 name = "amass"
-version = "0.1.0"
-edition = "2021"
+version = "0.1.1"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/colinjneville/amass"
 readme = "../README.md"
@@ -10,5 +10,5 @@ keywords = ["from", "telety", "derive", "convert"]
 categories = ["rust-patterns"]
 
 [dependencies]
-amass-macro = { version = "0.1", path = "../amass-macro" }
-telety = "0.2"
+amass-macro.workspace = true
+telety.workspace = true

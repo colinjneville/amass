@@ -76,3 +76,9 @@ pub(crate) enum Generic2<T, U> {
     #[amass_action(deep)]
     TU((T, U)),
 }
+
+#[amass::amass_telety(crate::util::types)]
+#[allow(dead_code)]
+enum Private {
+    A(i32),
+}

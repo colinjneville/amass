@@ -12,7 +12,7 @@ use syn::{
 
 pub(crate) struct AmassFrom {
     pub common: AmassCommon,
-    pub leaf_type: Type,
+    pub leaf_type: syn::TypePath,
 }
 
 impl Parse for AmassFrom {
